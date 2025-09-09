@@ -1,16 +1,3 @@
-{
-  "name": "http-url-module",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "nodemon": "^3.1.10"
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:d9f64f4c29eda4602f3ba4a35949f45d2d986c61bc801bbdbe7c76d3dbd12dc1
+size 301
