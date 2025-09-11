@@ -10,14 +10,18 @@ const App = () => {
       .then((data) => console.log(data))
       .catch((err) => console.log(err));
   }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    const inputdata = { name: name, salary: salary, role: role }
+
     fetch("http://localhost:3000/createEmployee", {
       method: "POST",
       headers: {
         "Content-Type":"application/json"
       },
-      body: JSON.stringify({ name: name, salary: salary, role: role }),
+      body: JSON.stringify(inputdata),
     })
       .then((res) => res.json())
       .then((data) => console.log(data))

@@ -3,11 +3,11 @@ const app = express();
 const fs = require("fs");
 const path = require("path");
 const uuid = require("uuid").v4;
-const cors = require("cors")
+const cors = require("cors");
 
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(cors())
+app.use(cors());
 
 const empdata = fs.readFileSync("./data/employess.json", "utf-8");
 
@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
   res.send("hi iam server ");
 });
 
-app.get("/getAllEmployees", async (req, res) => {
+app.get("/getAllEmployees", (req, res) => {
   try {
     fs.readFile("./data/employess.json", "utf-8", (err, data) => {
       res.status(200).json({ message: "fetched successfully", data });
@@ -47,24 +47,35 @@ app.post("/createEmployee", (req, res) => {
   try {
     const results = JSON.parse(empdata);
     const { name, role, salary } = req.body;
-    const data = {
-      employee_Id: uuid(),
-      name: name,
-      role: role,
-      salary: salary,
-    };
-    results.push(data);
-
-    fs.writeFile("./data/employess.json", JSON.stringify(results), (err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.status(201).json({message:"data added successfully"});
-      }
+    const check = results.find((emp) => {
+      emp.name === name;
+      console.log(name)
     });
+    console.log(check);
+    if (check) {
+      res.status(429).json({
+        message: "name already existed please provide other name",
+      });
+    } else {
+      const data = {
+        employee_Id: uuid(),
+        name: name,
+        role: role,
+        salary: salary,
+      };
+      results.push(data);
+
+      fs.writeFile("./data/employess.json", JSON.stringify(results), (err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(201).json({ message: "data added successfully" });
+        }
+      });
+    }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message:"internal server "});
+    res.status(500).json({ message: "internal server " });
   }
 });
 
