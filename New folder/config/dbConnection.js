@@ -11,8 +11,11 @@ async function connectDB() {
     await client.connect();
     db = client.db("emp_db");
     console.log("database connected");
-    const d = await db.collection("employee").find();
+    const d = await db.collection("employee").find().toArray();
     console.log(d);
+
+    const result = await db.collection("users").insertOne({ nam: "sharath" });
+    console.log(result);
   } catch (error) {
     console.log("error", error);
   }
