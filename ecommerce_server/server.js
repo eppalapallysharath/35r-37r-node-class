@@ -5,7 +5,7 @@ const port = process.env.port;
 const { connectDB } = require("./config/db.js");
 connectDB();
 const productRoute = require("./routes/productRoute.js");
-
+const userRoute = require("./routes/userRoutes.js");
 app.use(express.json());
 app.use(express.urlencoded(true));
 
@@ -14,6 +14,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/products", productRoute);
+app.use("/users/", userRoute);
 
 app.listen(port, () => {
   console.log("server started on " + port);
