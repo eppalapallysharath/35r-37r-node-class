@@ -14,9 +14,9 @@ const { upload } = require("../config/Multer.js");
 
 
 router.get("/", getAllProducts);
-router.post("/",  authentication, upload.single("image"), authorization("admin") ,postProduct);
+router.post("/", upload.single("image"), authentication, authorization("admin") ,postProduct);
 router.get("/:id", getProduct);
-router.put("/:id", updateProduct);
-router.delete("/:id", deleteProduct);
+router.put("/:id",upload.single("image"), authentication, authorization("admin"), updateProduct);
+router.delete("/:id", authentication, authorization("admin"),deleteProduct);
 
 module.exports = router;
