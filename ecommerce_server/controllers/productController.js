@@ -1,4 +1,6 @@
 const { ProductModel } = require("../models/productModel.js");
+const {uploadFiles} = require("../config/cloudinary.js")
+const fs = require("fs")
 
 const getAllProducts = async (req, res) => {
   const allData = await ProductModel.find();
@@ -7,7 +9,10 @@ const getAllProducts = async (req, res) => {
 
 const postProduct = async (req, res) => {
   const { title, image, price, category } = req.body;
-  const update = await ProductModel.create({ title, image, price, category });
+  const cloudinaryUploader = await uploadFiles(req.file.path) 
+  console.log(cloudinaryUploader)
+  fs.unlinkSync(req.file.path)
+  const update = await ProductModel.create({ title, image, price, category, image:cloudinaryUploader.url });
   res.status(201).json({
     message: "added successfully",
     update,

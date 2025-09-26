@@ -42,10 +42,10 @@ const login = async (req, res) => {
         checkUser.password
       );
       if (checkPassword) {
-        const { name, email, _id } = checkUser;
-        const userInfo = { _id, name, email };
+        const { name, email, _id , role} = checkUser;
+        const userInfo = { _id, name, email, role };
         const token = await jwt.sign(userInfo, process.env.jwt_secret_key, {
-          expiresIn: "1m",
+          expiresIn: "1h",
           algorithm: "HS384",
         });
         res.json({
@@ -65,8 +65,13 @@ const login = async (req, res) => {
   }
 };
 
-const getProfile = (req, res) => {
-  res.send("profile");
+const getProfile = async(req, res) => {
+  try {
+      const user = await UsersModel.findOne({_id:req.user._id}, {password:false})
+      res.json(user)
+  } catch (error) {
+    res.status(400).json({message:"Internal server error"})
+  }
 };
 
 module.exports = { signup, login, getProfile };
